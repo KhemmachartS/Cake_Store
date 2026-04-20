@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # ตั้งค่า Path สำหรับ PythonAnywhere
 project_home = '/home/Khemmachart/Cake_Store'
-db_path = os.path.join(project_home, 'cake_store.db')
+db_path = os.path.join(project_home, 'Cake_Store.db')
 
 def get_db_connection():
     conn = sqlite3.connect(db_path)
