@@ -63,3 +63,40 @@ def delete_cake(id):
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+@app.route('/')
+def index():
+    conn = get_db_connection()
+    cakes = conn.execute('''
+        SELECT Cakes.*, Categories.name as category_name 
+        FROM Cakes 
+        JOIN Categories ON Cakes.category_id = Categories.id
+    ''').fetchall()
+    categories = conn.execute('SELECT * FROM Categories').fetchall()
+    conn.close()
+    return render_template('index.html', cakes=cakes, categories=categories)
+
+# เพิ่ม Route นี้เพื่อให้ JavaScript ดึงข้อมูลไปใส่ใน Modal
+@app.route('/get_cake/<int:id>')
+def get_cake(id):
+    conn = get_db_connection()
+    cake = conn.execute('SELECT * FROM Cakes WHERE id = ?', (id,)).fetchone()
+    conn.close()
+    # ส่งค่ากลับเป็น JSON เพื่อให้หน้าเว็บเอาไปใช้ง่ายๆ
+    return {"id": cake['id'], "name": cake['name'], "price": cake['price'], "stock": cake['stock'], "category_id": cake['category_id']}
+
+@app.route('/edit_cake/<int:id>', methods=['POST'])
+def edit_cake(id):
+    name = request.form['name']
+    price = request.form['price']
+    stock = request.form['stock']
+    cat_id = request.form['category_id']
+    conn = get_db_connection()
+    conn.execute('UPDATE Cakes SET name=?, price=?, stock=?, category_id=? WHERE id=?',
+                 (name, price, stock, cat_id, id))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
+# ... (Route อื่นๆ เหมือนเดิม) ...
