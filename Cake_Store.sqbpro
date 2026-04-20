@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="Cake_Store.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1276"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Cakes" custom_title="0" dock_id="1" table="4,5:mainCakes"/><dock_state state="000000ff00000000fd0000000100000002000003df000002dafc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000000003df0000011e00ffffff000002690000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">-- 1. สร้างตารางหมวดหมู่ (Categories)
+CREATE TABLE Categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);
+
+-- 2. สร้างตารางเค้ก (Cakes)
+CREATE TABLE Cakes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    price REAL NOT NULL,
+    stock INTEGER NOT NULL,
+    category_id INTEGER,
+    FOREIGN KEY (category_id) REFERENCES Categories(id)
+);
+
+-- 3. เพิ่มข้อมูลหมวดหมู่
+INSERT INTO Categories (name) VALUES ('เค้กช็อกโกแลต');
+INSERT INTO Categories (name) VALUES ('ชีสเค้ก');
+
+-- 4. เพิ่มข้อมูลเค้ก 5 รายการ (อ้างอิง category_id 1 และ 2)
+INSERT INTO Cakes (name, price, stock, category_id) VALUES ('Double Choco', 120.0, 10, 1);
+INSERT INTO Cakes (name, price, stock, category_id) VALUES ('Strawberry Cheesecake', 150.0, 5, 2);
+INSERT INTO Cakes (name, price, stock, category_id) VALUES ('Blueberry Cake', 135.0, 8, 2);
+INSERT INTO Cakes (name, price, stock, category_id) VALUES ('Dark Chocolate', 140.0, 12, 1);
+INSERT INTO Cakes (name, price, stock, category_id) VALUES ('Red Velvet', 160.0, 4, 2);</sql><current_tab id="0"/></tab_sql></sqlb_project>
