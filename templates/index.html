@@ -2,84 +2,85 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>Cake Station - ร้านเค้กพาสเทล</title>
+    <title>Cake Store - พาสเทลหวานละมุน</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>body { font-family: 'Kanit', sans-serif; }</style>
 </head>
-<body class="bg-pink-50 min-h-screen">
-    <nav class="bg-rose-400 text-white p-4 shadow-md sticky top-0 z-10">
+<body class="bg-orange-50 min-h-screen">
+    <nav class="bg-rose-300 text-white p-4 shadow-sm sticky top-0 z-10">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold">🍰 Cake Station</a>
-            <a href="/" class="bg-white text-rose-500 px-4 py-2 rounded-full font-bold hover:bg-rose-50 transition">Back to Home</a>
+            <a href="/" class="text-2xl font-bold">🍰 Cake Store</a>
+            <a href="/" class="bg-white text-rose-400 px-5 py-2 rounded-full font-bold hover:bg-rose-50 transition shadow-sm">Back to Home</a>
         </div>
     </nav>
 
     <div class="container mx-auto p-6">
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-pink-100 mb-10">
-            <h2 class="text-xl font-bold text-rose-600 mb-4">เพิ่มเค้กใหม่</h2>
+        <div class="bg-white p-8 rounded-3xl shadow-sm mb-10 border border-rose-100">
+            <h2 class="text-xl font-bold text-rose-500 mb-6 flex items-center gap-2">
+                <span>✨</span> เพิ่มเมนูเค้กใหม่
+            </h2>
             <form action="/add_cake" method="POST" class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <input type="text" name="name" placeholder="ชื่อเค้ก" class="border p-2 rounded-lg outline-rose-300" required>
-                <input type="number" name="price" placeholder="ราคา" class="border p-2 rounded-lg outline-rose-300" required>
-                <input type="number" name="stock" placeholder="สต็อก" class="border p-2 rounded-lg outline-rose-300" required>
-                <select name="category_id" class="border p-2 rounded-lg outline-rose-300">
+                <input type="text" name="name" placeholder="ชื่อเค้ก" class="border-rose-100 border-2 p-3 rounded-2xl outline-rose-300 bg-rose-50/30" required>
+                <input type="number" name="price" placeholder="ราคา" class="border-rose-100 border-2 p-3 rounded-2xl outline-rose-300 bg-rose-50/30" required>
+                <input type="number" name="stock" placeholder="จำนวน" class="border-rose-100 border-2 p-3 rounded-2xl outline-rose-300 bg-rose-50/30" required>
+                <select name="category_id" class="border-rose-100 border-2 p-3 rounded-2xl outline-rose-300 bg-rose-50/30">
                     {% for cat in categories %}
                     <option value="{{ cat.id }}">{{ cat.name }}</option>
                     {% endfor %}
                 </select>
-                <button type="submit" class="bg-rose-500 text-white font-bold py-2 rounded-lg hover:bg-rose-600">บันทึก</button>
+                <button type="submit" class="bg-rose-400 text-white font-bold py-3 rounded-2xl hover:bg-rose-500 shadow-md transition">บันทึกข้อมูล</button>
             </form>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {% for cake in cakes %}
-            <div class="bg-white rounded-2xl p-5 shadow-sm border-b-4 border-rose-300 hover:shadow-md transition">
-                <div class="text-4xl mb-2">🧁</div>
-                <span class="text-xs bg-pink-100 text-rose-600 px-2 py-1 rounded-md font-bold">{{ cake.category_name }}</span>
-                <h3 class="text-xl font-bold text-gray-800 mt-2">{{ cake.name }}</h3>
-                <p class="text-2xl font-bold text-rose-500 mt-2">{{ "{:,.0f}".format(cake.price) }} ฿</p>
-                <p class="text-gray-400 text-sm">คงเหลือ: {{ cake.stock }} ชิ้น</p>
+            <div class="bg-white rounded-[2rem] p-6 shadow-sm border border-rose-50 hover:shadow-xl transition-all group relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-100 transition-opacity text-4xl">🍰</div>
+                <span class="text-[10px] bg-rose-100 text-rose-500 px-3 py-1 rounded-full font-bold tracking-wider uppercase">{{ cake.category_name }}</span>
+                <h3 class="text-lg font-bold text-gray-700 mt-3">{{ cake.name }}</h3>
+                <div class="flex items-baseline gap-1 mt-2">
+                    <span class="text-2xl font-bold text-rose-400">{{ "{:,.0f}".format(cake.price) }}</span>
+                    <span class="text-xs text-rose-300 font-bold">บาท</span>
+                </div>
+                <p class="text-gray-400 text-xs mt-1">สต็อกคงเหลือ: {{ cake.stock }} ชิ้น</p>
                 
-                <div class="flex gap-2 mt-4">
+                <div class="flex gap-2 mt-6">
                     <button onclick="openEdit('{{ cake.id }}', '{{ cake.name }}', '{{ cake.price }}', '{{ cake.stock }}', '{{ cake.category_id }}')" 
-                            class="flex-1 bg-amber-100 text-amber-700 py-2 rounded-lg font-bold hover:bg-amber-200">แก้ไข</button>
-                    <a href="/delete_cake/{{ cake.id }}" class="flex-1 bg-red-50 text-red-500 py-2 rounded-lg font-bold text-center hover:bg-red-100" onclick="return confirm('ลบหรือไม่?')">ลบ</a>
+                            class="flex-1 bg-rose-50 text-rose-500 py-3 rounded-2xl font-bold hover:bg-rose-100 transition">แก้ไข</button>
+                    <a href="/delete_cake/{{ cake.id }}" class="flex-1 bg-gray-50 text-gray-400 py-3 rounded-2xl font-bold text-center hover:bg-red-50 hover:text-red-500 transition" onclick="return confirm('ต้องการลบเมนูนี้ใช่หรือไม่?')">ลบ</a>
                 </div>
             </div>
             {% endfor %}
         </div>
     </div>
 
-    <div id="editModal" class="hidden fixed inset-0 bg-black/40 flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-3xl w-full max-w-md shadow-xl">
-            <h2 class="text-2xl font-bold text-rose-600 mb-4">แก้ไขเมนูเค้ก</h2>
+    <div id="editModal" class="hidden fixed inset-0 bg-rose-900/20 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white p-10 rounded-[2.5rem] w-full max-w-md shadow-2xl border border-rose-50">
+            <h2 class="text-2xl font-bold text-rose-500 mb-6 flex items-center gap-2"><span>📝</span> แก้ไขข้อมูลเค้ก</h2>
             <form id="editForm" method="POST" class="space-y-4">
-                <input type="text" name="name" id="e_name" class="w-full border p-3 rounded-xl outline-rose-300" required>
-                <input type="number" name="price" id="e_price" class="w-full border p-3 rounded-xl outline-rose-300" required>
-                <input type="number" name="stock" id="e_stock" class="w-full border p-3 rounded-xl outline-rose-300" required>
-                <select name="category_id" id="e_cat" class="w-full border p-3 rounded-xl outline-rose-300">
-                    {% for cat in categories %}
-                    <option value="{{ cat.id }}">{{ cat.name }}</option>
-                    {% endfor %}
-                </select>
-                <div class="flex gap-2">
-                    <button type="button" onclick="closeEdit()" class="flex-1 bg-gray-200 py-3 rounded-xl font-bold">ยกเลิก</button>
-                    <button type="submit" class="flex-1 bg-rose-500 text-white py-3 rounded-xl font-bold">บันทึกใหม่</button>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-rose-300 ml-2">ชื่อเค้ก</label>
+                    <input type="text" name="name" id="e_name" class="w-full border-rose-100 border-2 p-4 rounded-2xl outline-rose-300 bg-rose-50/30" required>
                 </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        function openEdit(id, name, price, stock, catId) {
-            document.getElementById('editForm').action = '/edit_cake/' + id;
-            document.getElementById('e_name').value = name;
-            document.getElementById('e_price').value = price;
-            document.getElementById('e_stock').value = stock;
-            document.getElementById('e_cat').value = catId;
-            document.getElementById('editModal').classList.remove('hidden');
-        }
-        function closeEdit() { document.getElementById('editModal').classList.add('hidden'); }
-    </script>
-</body>
-</html>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-rose-300 ml-2">ราคา (บาท)</label>
+                        <input type="number" name="price" id="e_price" class="w-full border-rose-100 border-2 p-4 rounded-2xl outline-rose-300 bg-rose-50/30" required>
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-xs font-bold text-rose-300 ml-2">สต็อก</label>
+                        <input type="number" name="stock" id="e_stock" class="w-full border-rose-100 border-2 p-4 rounded-2xl outline-rose-300 bg-rose-50/30" required>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-rose-300 ml-2">หมวดหมู่</label>
+                    <select name="category_id" id="e_cat" class="w-full border-rose-100 border-2 p-4 rounded-2xl outline-rose-300 bg-rose-50/30">
+                        {% for cat in categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="flex gap-3 pt-4">
+                    <button type="button" onclick="closeEdit()" class="flex-1 bg-gray-100 py-4 rounded-2xl font-bold text-gray-500 hover:bg-gray-200 transition">ยกเลิก</button>
+                    <button type="submit" class="flex-1 bg-rose-400 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-rose-500 transition">บันทึกใหม่
