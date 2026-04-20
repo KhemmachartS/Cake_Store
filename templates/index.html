@@ -84,3 +84,30 @@
                 <div class="flex gap-3 pt-4">
                     <button type="button" onclick="closeEdit()" class="flex-1 bg-gray-100 py-4 rounded-2xl font-bold text-gray-500 hover:bg-gray-200 transition">ยกเลิก</button>
                     <button type="submit" class="flex-1 bg-rose-400 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-rose-500 transition">บันทึกใหม่
+
+                        <button onclick="openEdit('{{ cake.id }}')" 
+        class="flex-1 bg-rose-50 text-rose-500 py-3 rounded-2xl font-bold hover:bg-rose-100 transition">
+    แก้ไข
+</button>
+
+<script>
+    async function openEdit(id) {
+        // 1. ดึงข้อมูลเค้กจาก Server ตาม id ที่กด
+        const response = await fetch('/get_cake/' + id);
+        const cake = await response.json();
+
+        // 2. เอาข้อมูลที่ได้ไปใส่ในช่อง Input ของ Modal
+        document.getElementById('editForm').action = '/edit_cake/' + id;
+        document.getElementById('e_name').value = cake.name;
+        document.getElementById('e_price').value = cake.price;
+        document.getElementById('e_stock').value = cake.stock;
+        document.getElementById('e_cat').value = cake.category_id;
+
+        // 3. แสดง Modal ขึ้นมา
+        document.getElementById('editModal').classList.remove('hidden');
+    }
+
+    function closeEdit() {
+        document.getElementById('editModal').classList.add('hidden');
+    }
+</script>
