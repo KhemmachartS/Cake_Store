@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 # --- ส่วนการตั้งค่า Path สำหรับ PythonAnywhere ---
 # ใช้ Path ตามที่คุณหาได้จากคำสั่ง pwd: /home/Khemmachart/Cake_Station
-project_home = '/home/Khemmachart/Cake_Station'
+project_home = '/home/Khemmachart/Cake_Store'
 db_path = os.path.join(project_home, 'cake_store.db')
 
 def get_db_connection():
